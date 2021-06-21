@@ -11,6 +11,8 @@ var zInc = 0;
 
 var fr;
 
+var flowPoints = [];
+
 function setup() {
   createCanvas(400, 400);
   // noiseDetail(4);
@@ -18,20 +20,21 @@ function setup() {
   cols = floor(width / scl);
   rows = floor(height / scl);
   fr = createP('');
+
+  PopulateFlowPoints();
+
 }
 
 function draw() {
+  
   clear();
   var yOff = 0;
-
   for (var y = 0; y < rows; y++) {
     var xOff = 0;
     for (var x = 0; x < cols; x++) {
-      var v = GetVectorAtPoint(xOff, yOff);
+      var v = GetVectorAtPoint(x, y);
       xOff = increment*x;
-
       DrawVector(x, y, v, xOff, yOff);
-
     }
     yOff = increment*y;
   }
@@ -44,6 +47,23 @@ function draw() {
 function GetVectorAtPoint(x, y) {
   var angle = noise(start + (x*increment), start + (y*increment)) * TWO_PI;
   return p5.Vector.fromAngle(angle);
+}
+
+function PopulateFlowPoints(){
+  var yOff = 0;
+  for (var y = 0; y < rows; y++) {
+    var xOff = 0;
+    for (var x = 0; x < cols; x++) {
+      let flowPoint = {
+        "x" : x,
+        "y" : y,
+        "xOff": x* increment,
+        "yOff": y * increment,
+        "noise": noise(start + (x*increment), start + (y*increment)) 
+      }
+      flowPoints.push(flowPoint);
+    }
+  }
 }
 
 function DrawVector(x, y, v, xOff, yOff) {
