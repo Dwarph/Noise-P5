@@ -1,6 +1,6 @@
 
-var increment = 0.1;
-var scl = 10;
+var increment = 0.005;
+var scl = 5;
 var cols, rows;
 
 
@@ -14,8 +14,19 @@ var fr;
 
 var flowPoints = [];
 
+var orange = 'rgb(240, 182, 127)';
+var red = 'rgb(254, 95, 85)';
+var yellow = 'rgba(255, 234, 112,1)';
+var blue = 'rgba(71, 171, 194, 1)';
+
+
+var backgroundColor = blue;
+var flowColor = yellow;
+
 function setup() {
-  createCanvas(400, 400);
+  // colorMode(RGB, 255);
+
+  createCanvas(800, 800);
   // noiseDetail(4);
 
   cols = floor(width / scl);
@@ -23,114 +34,58 @@ function setup() {
   fr = createP('');
 
   PopulateFlowPoints();
-
+  noLoop();
 }
 
 function draw() {
   PopulateFlowPoints();
-  clear();
+  background(backgroundColor);
+
   //DrawHair();
   DrawFlowLines();
   //testDraw();
   fr.html(floor(frameRate()));
-  noLoop();
   start += startInc;
   zOff += zInc;
 }
 
-function DrawHair() {
-  for (var y = 0; y < rows; y++) {
-    for (var x = 0; x < cols; x++) {
-      var flowPoint = getFlowPointAtIndex(x, y);
-      var v = GetVectorFromFlowPoint(flowPoint);
-      DrawVector(x, y, v, flowPoint.xOff, flowPoint.yOff);
-    }
-  }
-}
-
 function DrawFlowLines() {
+  stroke(flowColor);
   for (var y = 0; y < rows; y++) {
     for (var x = 0; x < cols; x++) {
       var flowPoint = getFlowPointAtIndex(x, y);
-      DrawLineFromPoint(flowPoint);
-    }
-  }
-}
-
-function testDraw() {
-  noFill();
-  strokeWeight(1);
-
-  beginShape();
-  curveVertex(84, 91);
-  curveVertex(84, 91);
-  curveVertex(68, 19);
-  curveVertex(21, 17);
-  curveVertex(32, 91);
-  curveVertex(32, 91);
-  endShape();
-}
-
-var minLineLength = 10;
-var maxLineLength = 10;
-var searchAreaMin = 5;
-var searchAreaMax = 5;
-
-
-function DrawLineFromPoint(flowPoint) {
-  noFill();
-  strokeWeight(1);
-
-
-  var i = 0;
-  beginShape();
-  while (i < maxLineLength) {
-    var noiseValue = Number.MAX_VALUE;
-    var closestX, closestY;
-    for (var y = flowPoint.y - searchAreaMin; y < flowPoint.y + searchAreaMax; y++) {
-      if (y < 0) { y = 0; continue; }
-      if (y > rows - 1) { break; }
-
-      for (var x = flowPoint.x - searchAreaMin; x < flowPoint.x + searchAreaMax; x++) {
-        if (x < 0) { x = 0; continue; }
-        if (x > rows - 1) { break; }
-
-        var newFlowPoint = getFlowPointAtIndex(x, y);
-        if (newFlowPoint.x == flowPoint.x && newFlowPoint.y == newFlowPoint.y) {
-          continue;
-        }
-          if (!newFlowPoint.used) {
-        if (abs(flowPoint.noise - newFlowPoint.noise) < noiseValue) {
-          noiseValue = abs(flowPoint.noise - newFlowPoint.noise);
-          closestX = x;
-          closestY = y;
-        }
-        }
+      if (isBoundary(flowPoint)) {
+        point(flowPoint.x * scl, flowPoint.y * scl);
+        increment++;
       }
     }
-
-    if (closestX == null) {
-      break;
-    }
-    var curveVertexFlowPoint = getFlowPointAtIndex(closestX, closestY);
-    curveVertex(curveVertexFlowPoint.x * scl, curveVertexFlowPoint.y * scl);
-    // console.log("curveVertex at: " + curveVertexFlowPoint.x + ", " + curveVertexFlowPoint.y);
-    curveVertexFlowPoint.used = true;
-    flowPoint = curveVertexFlowPoint;
-    if (flowPointAtBoundary(curveVertexFlowPoint)) { break; }
-    i++;
   }
-  // console.log("END");
-  endShape();
+  print("drawn");
 }
 
-function flowPointAtBoundary(flowPoint) {
-  return flowPoint.x == 0 || flowPoint.y == 0 || flowPoint.x == cols - 1 || flowPoint.y == rows - 1;
-}
+function isBoundary(flowPoint) {
+  noFill();
+  strokeWeight(2);
+  for (var y = flowPoint.y - 1; y < flowPoint.y + 2; y++) {
+    if (y < 0) { y = 0; continue; }
+    if (y > rows - 1) { break; }
 
-function GetVectorFromFlowPoint(flowPoint) {
-  var angle = flowPoint.noise * TWO_PI;
-  return p5.Vector.fromAngle(angle);
+    for (var x = flowPoint.x - 1; x < flowPoint.x + 2; x++) {
+      if (x < 0) { x = 0; continue; }
+      if (x > rows - 1) { break; }
+
+      if (x == flowPoint.x && y == newFlowPoint.y) {
+        continue;
+      }
+
+      var newFlowPoint = getFlowPointAtIndex(x, y);
+
+      if (newFlowPoint.noise != flowPoint.noise) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 function PopulateFlowPoints() {
@@ -142,7 +97,7 @@ function PopulateFlowPoints() {
         "y": y,
         "xOff": x * increment,
         "yOff": y * increment,
-        "noise": noise(start + (x * increment), start + (y * increment)),
+        "noise": round(noise(start + (x * increment), start + (y * increment)), 1),
         "used": false
       }
       flowPoints.push(flowPoint);
