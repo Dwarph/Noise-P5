@@ -2,6 +2,14 @@
   "include": [
     "*.js",
     "libraries/*.js",
-    "c:\\Users\\Tiny Theodore\\.vscode\\extensions\\samplavigne.p5-vscode-1.2.7\\p5types\\global.d.ts"
-, "PureNoise/sketch.js", "FlowField/sketch.js", "FlowyHair/sketch.js", "FlowyHair2/sketch.js", "NoiseGraph/sketch.js", "Scribbles/sketch.js"  ]
+    "c:\\Users\\Tiny Theodore\\.vscode\\extensions\\samplavigne.p5-vscode-1.2.7\\p5types\\global.d.ts",
+    "PureNoise/sketch.js",
+    "FlowField/sketch.js",
+    "FlowField/particle.js",
+    "FlowyHair/sketch.js",
+    "FlowyHair2/sketch.js",
+    "NoiseGraph/sketch.js",
+    "Scribbles/sketch.js",
+    "TerrainLines/sketch.js"
+  ]
 }
