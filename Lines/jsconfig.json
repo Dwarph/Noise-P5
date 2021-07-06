@@ -10,6 +10,7 @@
     "FlowyHair2/sketch.js",
     "NoiseGraph/sketch.js",
     "Scribbles/sketch.js",
-    "TerrainLines/sketch.js"
+    "TerrainLines/sketch.js",
+    "FlowLines/sketch.js"
   ]
 }
