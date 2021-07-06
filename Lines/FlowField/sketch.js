@@ -14,6 +14,17 @@ var fr;
 var particles = [];
 var flowField;
 
+var orange = 'rgb(240, 182, 127)';
+var red = 'rgb(254, 95, 85)';
+var yellow = 'rgba(255, 234, 112,1)';
+var yellowa = 'rgba(255, 234, 112,.25)';
+var blue = 'rgba(71, 171, 194, 1)';
+
+
+var backgroundColor = blue;
+var particleColour = yellow;
+
+
 function setup() {
   createCanvas(400, 400);
   // noiseDetail(4);
@@ -24,14 +35,14 @@ function setup() {
 
   flowField = new Array(cols * rows);
 
-  for (var i = 0; i < 1000; i++) {
+  for (var i = 0; i < 2000; i++) {
     particles[i] = new Particle();
   }
 }
 
 function draw() {
   clear();
-  
+  background(backgroundColor);
   var yOff = 0;
   for (var y = 0; y < rows; y++) {
     var xOff = 0;
@@ -42,7 +53,7 @@ function draw() {
       v.setMag(0.1);
       flowField[index] = v;
       xOff += increment;
-      stroke(0, 50);
+      stroke(yellowa);
 
       push();
       strokeWeight(1);

@@ -17,8 +17,8 @@ function Particle() {
     }
 
     this.show = function () {
-        stroke(0);
-        strokeWeight(4);
+        stroke(particleColour);
+        strokeWeight(2);
         point(this.pos.x, this.pos.y);
     }
 
