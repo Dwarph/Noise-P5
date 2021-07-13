@@ -11,6 +11,8 @@
     "NoiseGraph/sketch.js",
     "Scribbles/sketch.js",
     "TerrainLines/sketch.js",
-    "FlowLines/sketch.js"
+    "FlowLines/sketch.js",
+    "FlowLinesLowDetail/sketch.js",
+    "Portal/sketch.js"
   ]
 }
