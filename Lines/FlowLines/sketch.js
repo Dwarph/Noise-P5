@@ -29,7 +29,7 @@ var backgroundColor = yellow2;
 
 function setup() {
   createCanvas(400, 400);
-  // noiseDetail(4);
+   noiseDetail(3);
 
   cols = floor(width / scl);
   rows = floor(height / scl);

@@ -19,14 +19,21 @@ function Particle() {
         'rgb(240, 164, 147)',
         'rgb(226, 74, 40)',
         'rgb(231, 104, 75)'
+    ] 
+    
+    var colourPalette3 = [
+        'rgb(5, 55, 66)',
+        'rgb(57, 162, 219)',
+        'rgb(162, 219, 250)',
+        'rgb(232, 240, 242)'
     ]
 
     this.pos = createVector(0, random(height));
     this.vel = createVector(0, 0);
     this.acc = createVector(0, 0);
-    this.maxSpeed = 2;
+    this.maxSpeed = 10;
     this.sWeight = 20;
-    this.pColour = 'rgb(238, 148, 128)';
+    this.pColour = 'rgb(5, 55, 66)';
 
     this.update = function () {
         this.vel.add(this.acc);
@@ -64,8 +71,8 @@ function Particle() {
             changed = true;
         }
         if (changed) {
-            this.pColour = iceCreamPallette[getRandomInt(iceCreamPallette.length)];
-
+            this.pColour = colourPalette3[getRandomInt(colourPalette3.length)];
+            this.sWeight = getRandomInt(20) + 1;
         }
     }
 
